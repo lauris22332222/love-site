@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Love</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#ff6a88,#ff99ac);
+  font-family:Arial;
+}
+
+.title{
+  color:white;
+  font-size:26px;
+  margin-bottom:20px;
+  text-align:center;
+}
+
+img{
+  width:210px;
+  height:360px;
+  object-fit:cover;
+  border:5px solid white;
+  box-shadow:0 0 30px rgba(255,255,255,0.8);
+  margin-bottom:20px;
+}
+
+.heart{
+  position:absolute;
+  top:-50px;
+  font-size:24px;
+  animation:fall linear infinite;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh);
+    opacity:0;
+  }
+}
+
+#muteBtn{
+  position:fixed;
+  bottom:20px;
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  border:none;
+  background:white;
+  font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="title" id="text"></div>
+
+<img src="https://i.ibb.co/dZGnbVt/IMG-20260227-212505-261.jpg">
+
+<audio id="music" loop>
+<source src="mysong.mp3" type="audio/mpeg">
+</audio>
+
+<button id="muteBtn">🔊</button>
+
+<script>
+// текст
+const message="всё что на душе твоей говори мне🥺";
+let i=0;
+function type(){
+ if(i<message.length){
+  document.getElementById("text").innerHTML+=message[i];
+  i++;
+  setTimeout(type,80);
+ }
+}
+type();
+
+// сердечки
+setInterval(()=>{
+ const h=document.createElement("div");
+ h.className="heart";
+ h.innerHTML="❤️";
+ h.style.left=Math.random()*100+"vw";
+ h.style.animationDuration=(4+Math.random()*4)+"s";
+ document.body.appendChild(h);
+ setTimeout(()=>h.remove(),8000);
+},250);
+
+// музыка
+const music=document.getElementById("music");
+let started=false;
+
+function startMusic(){
+ if(!started){
+  music.play().catch(()=>{});
+  started=true;
+ }
+}
+
+document.addEventListener("click",startMusic);
+document.addEventListener("touchstart",startMusic);
+
+// mute
+const btn=document.getElementById("muteBtn");
+btn.onclick=()=>{
+ music.muted=!music.muted;
+ btn.textContent=music.muted?"🔇":"🔊";
+};
+</script>
+
+</body>
+</html>
