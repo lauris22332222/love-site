@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Romantic Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#ff6a88,#ff99ac);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.title {
+  color: white;
+  font-size: 26px;
+  margin-bottom: 25px;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(255,255,255,0.9),
+               0 0 20px rgba(255,255,255,0.7);
+}
+img {
+  width: 210px;
+  height: 360px;
+  object-fit: cover;
+  border: 5px solid white;
+  box-shadow: 0 0 35px rgba(255,255,255,0.7);
+  margin-bottom: 15px;
+}
+.heart {
+  position: absolute;
+  top: -50px;
+  font-size: 24px;
+  animation: floatDown linear infinite;
+  color: red;
+}
+.heart span {
+  font-size: 12px;
+  margin-left: 5px;
+  font-weight: bold;
+  color: pink;
+}
+@keyframes floatDown {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(110vh); opacity: 0; }
+}
+button#muteBtn {
+  position: fixed;
+  bottom: 20px;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+</style>
+</head>
+<body>
+
+<div class="title" id="text"></div>
+
+<img src="https://i.ibb.co/dZGnbVt/IMG-20260227-212505-261.jpg" alt="Фото">
+
+<!-- Музыка -->
+<audio id="mysong" loop autoplay>
+  <source src="mysong.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<button id="muteBtn">🔇</button>
+
+<script>
+// Печатаем надпись
+const message = "всё что на душе твоей говори мне🥺";
+const textElement = document.getElementById("text");
+let i = 0;
+function typeText() {
+  if (i < message.length) {
+    textElement.innerHTML += message.charAt(i);
+    i++;
+    setTimeout(typeText, 80);
+  }
+}
+typeText();
+
+// Летящие сердечки
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "❤️ <span>красавица</span>";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 8000);
+}
+setInterval(createHeart, 250);
+
+// Кнопка Mute/Unmute
+const music = document.getElementById("mysong");
+const muteBtn = document.getElementById("muteBtn");
+muteBtn.addEventListener("click", () => {
+  music.muted = !music.muted;
+  muteBtn.innerText = music.muted ? "🔇" : "🔊";
+});
+</script>
+
+</body>
+</html>
